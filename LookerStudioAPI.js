@@ -69,6 +69,9 @@ function getSheetData(sheet) {
 }
 
 function getNewRows(bufferData, targetData, validityColumnIndex) {
+    const lastRowWithValidData = targetData.slice().reverse().findIndex(row => row[validityColumnIndex] !== 100);
+    const startRow = targetData.length - lastRowWithValidData;
+
     const uniqueIds = targetData.reduce((ids, row) => {
         if (row[validityColumnIndex] !== 100) {
             ids[row.join("|")] = true;
@@ -76,13 +79,14 @@ function getNewRows(bufferData, targetData, validityColumnIndex) {
         return ids;
     }, {});
 
-    const newRows = bufferData.reduce((rows, row) => {
+    const newRows = bufferData.slice(startRow).reduce((rows, row) => {
         if (row[validityColumnIndex] !== 100 && !uniqueIds[row.join("|")]) {
             rows.push(row);
             uniqueIds[row.join("|")] = true;
         }
         return rows;
     }, []);
+
     Logger.log(`New rows obtained: ${newRows.length}`);
     return newRows;
 }
