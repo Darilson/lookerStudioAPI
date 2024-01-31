@@ -1,5 +1,5 @@
 function importCSVFromGoogleDrive() {
-    const fileName = "PolymerDispFrequency0.csv";
+    const fileName = "Alarmes0.csv";
     Logger.log(`Importing file: ${fileName}`);
     const csvFile = DriveApp.getFilesByName(fileName).next();
     const csvData = Utilities.parseCsv(csvFile.getBlob().getDataAsString('ISO-8859-1'));
@@ -13,7 +13,7 @@ function importCSVFromGoogleDrive() {
     bufferRange.setValues(csvData);
     Logger.log(`Copied data to buffer sheet: ${bufferSheetName}`);
 
-    const targetSheetName = "PolymerDispFrequency0";
+    const targetSheetName = "Alarmes0";
     const targetSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(targetSheetName);
     if (!targetSheet) {
         throw new Error(`Sheet not found: ${targetSheetName}`);
